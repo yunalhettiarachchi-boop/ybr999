@@ -28,11 +28,6 @@
             transition: opacity 0.5s ease, filter 0.5s ease;
         }
 
-        #canvas-container.fade-blur {
-            opacity: 0.3;
-            filter: blur(10px);
-        }
-
         .content {
             position: relative;
             z-index: 2;
@@ -447,7 +442,7 @@
                         maintenance, and security protocols.
                     </p>
                     <div class="contact-info">
-                        <div class="contact-item">📍 Negombo, Sri Lanka</div>
+                        <div class="contact-item">📍 Nugegoda, Sri Lanka</div>
                         <div class="contact-item">📧 yunalhettiarachchi@gmail.com</div>
                         <div class="contact-item">📱 0720374022</div>
                         <div class="contact-item">💼 <a href="https://linkedin.com/in/yunal-hettiarachchi-1227b4374" target="_blank">LinkedIn</a></div>
@@ -524,23 +519,30 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
-        // Load uploaded photo
-        const photoInput = document.createElement('input');
-        photoInput.type = 'file';
-        photoInput.accept = 'image/*';
-        photoInput.style.display = 'none';
-        document.body.appendChild(photoInput);
+        // Load your photo from uploaded image
+        async function loadPhoto() {
+            try {
+                const photoData = await window.fs.readFile('WhatsApp Image 2025-12-10 at 7.04.55 PM.jpeg');
+                const blob = new Blob([photoData], { type: 'image/jpeg' });
+                const url = URL.createObjectURL(blob);
+                document.getElementById('heroPhoto').src = url;
+                document.getElementById('floatingPhoto').src = url;
+            } catch(e) {
+                console.log('Photo not found, using placeholder');
+                const placeholder = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iIzM2ODJGNiIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iNjAiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+WUI8L3RleHQ+PC9zdmc+';
+                document.getElementById('heroPhoto').src = placeholder;
+                document.getElementById('floatingPhoto').src = placeholder;
+            }
+        }
+        loadPhoto();
 
-        // Placeholder: You'll need to add your photo
-        const photoPlaceholder = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iIzM2ODJGNiIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iNjAiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+WUI8L3RleHQ+PC9zdmc+';
-        
-        document.getElementById('heroPhoto').src = photoPlaceholder;
-        document.getElementById('floatingPhoto').src = photoPlaceholder;
-
-        // Scene setup
+        // Scene setup with optimized performance
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        const renderer = new THREE.WebGLRenderer({ 
+            antialias: true, 
+            alpha: true
+        });
         
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setClearColor(0x000814, 1);
@@ -548,22 +550,8 @@
 
         camera.position.z = 15;
 
-        // Create large glowing sphere (planet)
-        const sphereGeometry = new THREE.SphereGeometry(6, 64, 64);
-        const sphereMaterial = new THREE.MeshPhongMaterial({
-            color: 0x3b82f6,
-            emissive: 0x1e40af,
-            emissiveIntensity: 0.3,
-            shininess: 100,
-            transparent: true,
-            opacity: 0.9
-        });
-        const globe = new THREE.Mesh(sphereGeometry, sphereMaterial);
-        globe.position.y = -4;
-        scene.add(globe);
-
-        // Create particle field around the sphere
-        const particleCount = 8000;
+        // Optimized particle count (3000 for smooth performance)
+        const particleCount = 3000;
         const particlesGeometry = new THREE.BufferGeometry();
         const positions = new Float32Array(particleCount * 3);
         const colors = new Float32Array(particleCount * 3);
@@ -571,16 +559,10 @@
         for (let i = 0; i < particleCount; i++) {
             const i3 = i * 3;
             
-            // Random spherical distribution around the globe
-            const radius = 6.5 + Math.random() * 4;
-            const theta = Math.random() * Math.PI * 2;
-            const phi = Math.acos(2 * Math.random() - 1);
-            
-            positions[i3] = radius * Math.sin(phi) * Math.cos(theta);
-            positions[i3 + 1] = radius * Math.sin(phi) * Math.sin(theta) - 4;
-            positions[i3 + 2] = radius * Math.cos(phi);
+            positions[i3] = (Math.random() - 0.5) * 50;
+            positions[i3 + 1] = (Math.random() - 0.5) * 50;
+            positions[i3 + 2] = (Math.random() - 0.5) * 30;
 
-            // White to light blue colors
             colors[i3] = 0.7 + Math.random() * 0.3;
             colors[i3 + 1] = 0.8 + Math.random() * 0.2;
             colors[i3 + 2] = 0.9 + Math.random() * 0.1;
@@ -590,7 +572,7 @@
         particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
         const particlesMaterial = new THREE.PointsMaterial({
-            size: 0.05,
+            size: 0.1,
             vertexColors: true,
             transparent: true,
             opacity: 0.8,
@@ -599,18 +581,6 @@
 
         const particleSystem = new THREE.Points(particlesGeometry, particlesMaterial);
         scene.add(particleSystem);
-
-        // Glow effect layer
-        const glowGeometry = new THREE.SphereGeometry(6.3, 32, 32);
-        const glowMaterial = new THREE.MeshBasicMaterial({
-            color: 0x60a5fa,
-            transparent: true,
-            opacity: 0.15,
-            side: THREE.BackSide
-        });
-        const glow = new THREE.Mesh(glowGeometry, glowMaterial);
-        glow.position.y = -4;
-        scene.add(glow);
 
         const ambientLight = new THREE.AmbientLight(0x1e3a8a, 0.8);
         scene.add(ambientLight);
@@ -636,26 +606,17 @@
             requestAnimationFrame(animate);
             time += 0.01;
 
-            // Rotate globe slowly
-            globe.rotation.y += 0.001;
-            glow.rotation.y += 0.001;
-
-            // Animate particles orbiting around the sphere
-            particleSystem.rotation.y += 0.0005;
+            particleSystem.rotation.y += 0.0003;
+            particleSystem.rotation.x += 0.0001;
             
-            // Gentle floating motion for particles
             const positions = particleSystem.geometry.attributes.position.array;
             for (let i = 0; i < positions.length; i += 3) {
-                positions[i + 1] += Math.sin(time + i * 0.01) * 0.002;
+                positions[i + 1] += Math.sin(time + i * 0.01) * 0.003;
             }
             particleSystem.geometry.attributes.position.needsUpdate = true;
 
-            // Subtle camera movement
             camera.rotation.y += (mouseX * 0.2 - camera.rotation.y) * 0.05;
             camera.rotation.x += (mouseY * 0.2 - camera.rotation.x) * 0.05;
-
-            // Pulse glow
-            glow.scale.x = glow.scale.y = glow.scale.z = 1 + Math.sin(time * 0.5) * 0.02;
 
             renderer.render(scene, camera);
         }
@@ -676,7 +637,6 @@
             const scrollY = window.scrollY;
             const windowHeight = window.innerHeight;
             
-            // Fade and blur background as you scroll
             if (scrollY > 100) {
                 const opacity = Math.max(0.2, 1 - (scrollY - 100) / 500);
                 const blur = Math.min(15, (scrollY - 100) / 50);
@@ -687,7 +647,6 @@
                 canvasContainer.style.filter = 'blur(0px)';
             }
             
-            // Show floating profile photo
             if (scrollY > windowHeight * 0.3) {
                 floatingProfile.classList.add('visible');
             } else {

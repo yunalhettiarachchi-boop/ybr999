@@ -1,194 +1,1260 @@
-import { motion } from 'motion/react';
-import { BookOpen, Award, TrendingUp, Target, GraduationCap } from 'lucide-react';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yunal Banuja Hettiarachchi - Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-const certifications = [
-  {
-    title: 'CCNAv7 (Cisco Certified Network Associate)',
-    issuer: 'Cisco',
-    year: '2024',
-    icon: '🏆',
-    description: 'Comprehensive networking certification covering routing, switching, and network fundamentals'
-  },
-  {
-    title: 'NVQ Level 4 – Computer Network Technician',
-    issuer: 'Vocational Training Authority',
-    year: '2024',
-    icon: '🎓',
-    description: 'National vocational qualification in computer network technology'
-  }
-];
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            overflow-x: hidden;
+            color: #ffffff;
+        }
 
-const currentLearning = [
-  'Advanced Cisco Networking',
-  'Network Security & Penetration Testing',
-  'Linux System Administration',
-  'Cloud Computing Fundamentals',
-  'Network Automation & Scripting',
-  'Advanced Troubleshooting Techniques'
-];
+        /* Splash Screen Styles */
+        .splash-screen {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(to bottom right, #172554, #312e81, #581c87);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 1;
+            transition: opacity 0.5s ease-out;
+        }
 
-const timeline = [
-  {
-    year: '2024-2025',
-    title: 'Cisco Network Technician Training',
-    institution: 'Vocational Training Authority, Narahenpita',
-    description: 'Pursuing entry-level technical position preparation with comprehensive networking training'
-  },
-  {
-    year: '2024',
-    title: 'Media English Announcer',
-    institution: 'Current Role',
-    description: 'Developing communication and public speaking skills through media presentation'
-  },
-  {
-    year: '2024',
-    title: 'NVQ Level 4 Certification',
-    institution: 'Computer Network Technician',
-    description: 'Achieved national vocational qualification in network technology'
-  }
-];
+        .splash-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
 
-export function LearningSection() {
-  return (
-    <div className="max-w-6xl mx-auto">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="text-center mb-12"
-      >
-        <motion.h2 
-          className="text-4xl md:text-5xl text-white mb-4"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.2 }}
-        >
-          Learning Journey
-        </motion.h2>
-        <motion.p 
-          className="text-xl text-rose-200"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3 }}
-        >
-          Continuous growth and professional development
-        </motion.p>
-      </motion.div>
+        .splash-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            animation: splashFadeIn 0.8s ease-out 0.3s both;
+        }
 
-      {/* Certifications */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.1 }}
-        className="mb-12"
-      >
-        <div className="flex items-center gap-3 mb-6">
-          <Award className="w-8 h-8 text-white" />
-          <h3 className="text-2xl text-white">Certifications & Achievements</h3>
+        .splash-name {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            animation: splashScale 0.8s ease-out 0.5s both;
+        }
+
+        .splash-line {
+            height: 4px;
+            background: linear-gradient(to right, transparent, white, transparent);
+            margin: 1rem auto;
+            width: 0;
+            animation: splashLineExpand 1s ease-out 1s both;
+        }
+
+        .splash-subtitle {
+            font-size: 1.5rem;
+            color: #bfdbfe;
+            animation: splashFadeIn 0.8s ease-out 1.5s both;
+        }
+
+        @keyframes splashFadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes splashScale {
+            from { opacity: 0; transform: scale(0.5); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes splashLineExpand {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        /* Main Container */
+        .main-container {
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transition: opacity 0.5s ease-in;
+        }
+
+        .main-container.visible {
+            opacity: 1;
+        }
+
+        /* Background Gradient */
+        .background-gradient {
+            position: fixed;
+            inset: 0;
+            transition: opacity 0.5s ease-in-out;
+            z-index: 0;
+        }
+
+        .bg-about {
+            background: linear-gradient(to bottom right, #581c87, #6b21a8, #4c1d95);
+        }
+
+        .bg-work {
+            background: linear-gradient(to bottom right, #1e3a8a, #155e75, #115e59);
+        }
+
+        .bg-skills {
+            background: linear-gradient(to bottom right, #065f46, #166534, #115e59);
+        }
+
+        .bg-learning {
+            background: linear-gradient(to bottom right, #881337, #a21caf, #581c87);
+        }
+
+        .bg-contact {
+            background: linear-gradient(to bottom right, #3730a3, #6b21a8, #581c87);
+        }
+
+        /* Particle Canvas */
+        #particleCanvas, #splashCanvas {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.6;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .nav-brand {
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .nav-btn.active {
+            background: white;
+            color: black;
+        }
+
+        .nav-btn:not(.active) {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .nav-btn:not(.active):hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Content */
+        .content {
+            position: relative;
+            z-index: 10;
+            padding: 7rem 1rem 4rem;
+            min-height: 100vh;
+        }
+
+        .section {
+            display: none;
+            animation: sectionFadeIn 0.5s ease-out;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes sectionFadeIn {
+            from { opacity: 0; transform: translateY(20px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* Cards */
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(16px);
+            border-radius: 1rem;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 2rem;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .container {
+            max-width: 1024px;
+            margin: 0 auto;
+        }
+
+        .container-wide {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        /* Profile Section */
+        .profile-header {
+            display: flex;
+            gap: 2rem;
+            align-items: flex-start;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .profile-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 1rem;
+            overflow: hidden;
+            border: 4px solid rgba(34, 211, 238, 0.5);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            flex-shrink: 0;
+        }
+
+        .profile-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-info {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+
+        h4 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            color: #a5f3fc;
+            margin-bottom: 1.5rem;
+        }
+
+        .meta-info {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 1rem;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Grid Layouts */
+        .grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .grid-2 {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        .grid-3 {
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        }
+
+        /* Lists */
+        .skill-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .skill-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 0.5rem;
+            margin-bottom: 0.5rem;
+            transition: background 0.3s;
+        }
+
+        .skill-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .bullet {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #22d3ee;
+            flex-shrink: 0;
+        }
+
+        /* Icons */
+        .icon {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+        }
+
+        .icon-lg {
+            width: 32px;
+            height: 32px;
+        }
+
+        /* Buttons & Links */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            transition: all 0.3s;
+            border: 1px solid rgba(34, 211, 238, 0.3);
+            background: rgba(34, 211, 238, 0.2);
+            color: white;
+            font-weight: 500;
+        }
+
+        .btn:hover {
+            background: rgba(34, 211, 238, 0.3);
+            transform: scale(1.05);
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .timeline-marker {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: linear-gradient(to bottom right, #fb7185, #e879f9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 0.875rem;
+            text-align: center;
+            padding: 0.5rem;
+            font-weight: 600;
+            box-shadow: 0 8px 20px rgba(251, 113, 133, 0.4);
+        }
+
+        .timeline-content {
+            flex: 1;
+            padding-bottom: 2rem;
+        }
+
+        /* Form */
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-input,
+        .form-textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 0.5rem;
+            color: white;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+
+        .form-input::placeholder,
+        .form-textarea::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .form-input:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .form-textarea {
+            resize: none;
+            min-height: 200px;
+        }
+
+        .btn-submit {
+            width: 100%;
+            background: white;
+            color: black;
+            border: none;
+            cursor: pointer;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+
+        .btn-submit:hover {
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Badge */
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: rgba(34, 211, 238, 0.2);
+            color: #a5f3fc;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        /* Activity Card */
+        .activity-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(16px);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s;
+        }
+
+        .activity-card:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-5px);
+        }
+
+        .activity-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Certification Card */
+        .cert-card {
+            background: linear-gradient(to bottom right, rgba(251, 113, 133, 0.1), rgba(232, 121, 249, 0.1));
+            backdrop-filter: blur(16px);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            border: 1px solid rgba(251, 113, 133, 0.3);
+            transition: all 0.3s;
+        }
+
+        .cert-card:hover {
+            border-color: rgba(251, 113, 133, 0.5);
+            transform: scale(1.05);
+        }
+
+        /* Text Colors */
+        .text-muted {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .text-highlight {
+            color: #a5f3fc;
+        }
+
+        .text-success {
+            color: #86efac;
+        }
+
+        .text-rose {
+            color: #fda4af;
+        }
+
+        /* Spacing */
+        .mb-2 { margin-bottom: 0.5rem; }
+        .mb-3 { margin-bottom: 0.75rem; }
+        .mb-4 { margin-bottom: 1rem; }
+        .mb-6 { margin-bottom: 1.5rem; }
+        .mb-8 { margin-bottom: 2rem; }
+
+        .mt-2 { margin-top: 0.5rem; }
+        .mt-4 { margin-top: 1rem; }
+        .mt-6 { margin-top: 1.5rem; }
+        .mt-8 { margin-top: 2rem; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .splash-name {
+                font-size: 2rem;
+            }
+
+            .splash-subtitle {
+                font-size: 1.25rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.75rem;
+            }
+
+            .profile-header {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .profile-image {
+                width: 150px;
+                height: 150px;
+            }
+
+            .nav-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .nav-buttons {
+                justify-content: center;
+            }
+
+            .nav-btn span {
+                display: none;
+            }
+
+            .content {
+                padding-top: 12rem;
+            }
+        }
+
+        /* Glowing Orbs */
+        .glowing-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            pointer-events: none;
+            z-index: 1;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .orb-1 {
+            width: 500px;
+            height: 500px;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle, rgba(96, 165, 250, 0.3), rgba(147, 51, 234, 0.3));
+        }
+
+        .orb-2 {
+            width: 256px;
+            height: 256px;
+            right: 10%;
+            top: 20%;
+            background: radial-gradient(circle, rgba(34, 211, 238, 0.2), rgba(37, 99, 235, 0.2));
+            animation-delay: -2s;
+            animation-duration: 6s;
+        }
+
+        .orb-3 {
+            width: 256px;
+            height: 256px;
+            left: 10%;
+            bottom: 20%;
+            background: radial-gradient(circle, rgba(168, 85, 247, 0.2), rgba(236, 72, 153, 0.2));
+            animation-delay: -4s;
+            animation-duration: 6s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+                opacity: 0.3;
+            }
+            50% {
+                transform: translate(30px, -30px) scale(1.1);
+                opacity: 0.5;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Splash Screen -->
+    <div id="splashScreen" class="splash-screen">
+        <canvas id="splashCanvas"></canvas>
+        <div class="splash-content">
+            <h1 class="splash-name">Yunal Banuja Hettiarachchi</h1>
+            <div class="splash-line"></div>
+            <p class="splash-subtitle">Network Technician & IT Professional</p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {certifications.map((cert, index) => (
-            <motion.div
-              key={cert.title}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 + (index * 0.1) }}
-              className="bg-gradient-to-br from-rose-500/10 to-fuchsia-500/10 backdrop-blur-md rounded-xl p-6 border border-rose-400/30 hover:border-rose-400/50 transition-all transform hover:scale-105"
-            >
-              <motion.div 
-                className="text-5xl mb-4"
-                whileHover={{ scale: 1.2, rotate: 10 }}
-                transition={{ type: "spring", stiffness: 300 }}
-              >
-                {cert.icon}
-              </motion.div>
-              <h4 className="text-lg text-white mb-2">{cert.title}</h4>
-              <p className="text-rose-300 text-sm mb-2">{cert.issuer}</p>
-              <p className="text-white/70 text-sm mb-3">{cert.description}</p>
-              <p className="text-fuchsia-400 text-sm">{cert.year}</p>
-            </motion.div>
-          ))}
-        </div>
-      </motion.div>
-
-      {/* Currently Learning */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3 }}
-        className="mb-12"
-      >
-        <div className="flex items-center gap-3 mb-6">
-          <BookOpen className="w-8 h-8 text-white" />
-          <h3 className="text-2xl text-white">Currently Learning & Developing</h3>
-        </div>
-        <div className="bg-gradient-to-br from-rose-500/10 to-purple-500/10 backdrop-blur-md rounded-xl p-6 border border-rose-400/30">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {currentLearning.map((item, index) => (
-              <motion.div
-                key={item}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.4 + (index * 0.05) }}
-                className="flex items-center gap-3 p-4 bg-white/5 rounded-lg hover:bg-white/10 transition-all transform hover:translate-x-2"
-              >
-                <TrendingUp className="w-5 h-5 text-rose-300 flex-shrink-0" />
-                <span className="text-white">{item}</span>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </motion.div>
-
-      {/* Education Timeline */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5 }}
-      >
-        <div className="flex items-center gap-3 mb-6">
-          <GraduationCap className="w-8 h-8 text-white" />
-          <h3 className="text-2xl text-white">Education & Career Timeline</h3>
-        </div>
-        <div className="bg-gradient-to-br from-fuchsia-500/10 to-violet-500/10 backdrop-blur-md rounded-xl p-8 border border-fuchsia-400/30">
-          <div className="space-y-8">
-            {timeline.map((item, index) => (
-              <motion.div
-                key={`${item.year}-${index}`}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.6 + (index * 0.1) }}
-                className="flex gap-6 relative"
-                whileHover={{ x: 10 }}
-              >
-                <div className="flex flex-col items-center">
-                  <motion.div 
-                    className="w-16 h-16 rounded-full bg-gradient-to-br from-rose-400 to-fuchsia-400 flex items-center justify-center text-white flex-shrink-0 shadow-lg"
-                    whileHover={{ scale: 1.2, rotate: 360 }}
-                    transition={{ type: "spring", stiffness: 200 }}
-                  >
-                    <span className="text-sm text-center leading-tight px-2">{item.year}</span>
-                  </motion.div>
-                  {index < timeline.length - 1 && (
-                    <div className="w-0.5 h-full bg-gradient-to-b from-rose-400/50 to-transparent mt-2" />
-                  )}
-                </div>
-                <div className="pb-8 flex-1">
-                  <div className="flex items-start justify-between gap-4 mb-2">
-                    <h4 className="text-xl text-white">{item.title}</h4>
-                    {item.status && (
-                      <span className="px-3 py-1 bg-green-500/20 text-green-300 rounded-full text-xs whitespace-nowrap">
-                        {item.status}
-                      </span>
-                    )}
-                  </div>
-                  <p className="text-orange-300 mb-2">{item.institution}</p>
-                  <p className="text-white/70">{item.description}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </motion.div>
     </div>
-  );
-}
+
+    <!-- Main Container -->
+    <div id="mainContainer" class="main-container">
+        <!-- Background Gradient -->
+        <div id="bgGradient" class="background-gradient bg-about"></div>
+        
+        <!-- Glowing Orbs -->
+        <div class="glowing-orb orb-1"></div>
+        <div class="glowing-orb orb-2"></div>
+        <div class="glowing-orb orb-3"></div>
+
+        <!-- Particle Canvas -->
+        <canvas id="particleCanvas"></canvas>
+
+        <!-- Navigation -->
+        <nav>
+            <div class="nav-container">
+                <div class="nav-brand">Yunal Hettiarachchi</div>
+                <div class="nav-buttons">
+                    <button class="nav-btn active" data-section="about">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                        <span>About Me</span>
+                    </button>
+                    <button class="nav-btn" data-section="work">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                        </svg>
+                        <span>My Work</span>
+                    </button>
+                    <button class="nav-btn" data-section="skills">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="8" r="7"></circle>
+                            <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+                        </svg>
+                        <span>Skills & Talents</span>
+                    </button>
+                    <button class="nav-btn" data-section="learning">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                            <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+                        </svg>
+                        <span>Learning Journey</span>
+                    </button>
+                    <button class="nav-btn" data-section="contact">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                            <polyline points="22,6 12,13 2,6"></polyline>
+                        </svg>
+                        <span>Contact</span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Content Sections -->
+        <div class="content">
+            <!-- About Section -->
+            <div id="about" class="section active">
+                <div class="container">
+                    <div class="card">
+                        <div class="profile-header">
+                            <div class="profile-image">
+                                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Crect fill='%236b21a8' width='200' height='200'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='60' fill='white'%3EYH%3C/text%3E%3C/svg%3E" alt="Yunal Banuja Hettiarachchi">
+                            </div>
+                            <div class="profile-info">
+                                <h1>Yunal Banuja Hettiarachchi</h1>
+                                <p class="subtitle">Network Technician & IT Professional</p>
+                                <div class="meta-info">
+                                    <div class="meta-item">
+                                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                            <circle cx="12" cy="10" r="3"></circle>
+                                        </svg>
+                                        <span>Nugegoda, Colombo, Sri Lanka</span>
+                                    </div>
+                                    <div class="meta-item">
+                                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                                        </svg>
+                                        <span>Available for Work</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-8">
+                            <h3 class="mb-4">About Me</h3>
+                            <p class="text-muted">
+                                Results-oriented and motivated individual undertaking a Cisco Network Technician course and NVQ 
+                                Level 4 certification, with active pursuit toward an entry-level technical position. Proven abilities 
+                                within network troubleshooting and practical experience with physical installations and hardware 
+                                maintenance. Able to configure and perform network topologies, including functional knowledge of 
+                                Windows Server and an Introduction to Kali Linux. Strong interpersonal and communication skills, 
+                                collaborative teamwork, and rapid absorption of new technologies.
+                            </p>
+                        </div>
+
+                        <div class="mb-8">
+                            <h3 class="mb-4">Professional Certifications</h3>
+                            <div class="skill-list">
+                                <div class="skill-item">
+                                    <div class="bullet"></div>
+                                    <span>CCNAv7 (Cisco Certified Network Associate)</span>
+                                </div>
+                                <div class="skill-item">
+                                    <div class="bullet"></div>
+                                    <span>NVQ Level 4 – Computer Network Technician</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-8">
+                            <h3 class="mb-4">More About Myself</h3>
+                            <div style="background: linear-gradient(to bottom right, rgba(34, 211, 238, 0.1), rgba(20, 184, 166, 0.1)); border-radius: 0.75rem; padding: 1.5rem; border: 1px solid rgba(34, 211, 238, 0.2);">
+                                <p class="text-muted mb-6">
+                                    I'm passionate about technology and constantly seeking to expand my knowledge in networking 
+                                    and cybersecurity. My journey in IT has been marked by hands-on learning, practical projects, 
+                                    and a commitment to excellence. I thrive in collaborative environments and enjoy solving 
+                                    complex technical challenges.
+                                </p>
+                                <div style="display: flex; align-items: center; gap: 1rem;">
+                                    <div style="font-size: 3rem;">🏅</div>
+                                    <div style="flex: 1;">
+                                        <p class="mb-2">View My Professional Badges & Certifications</p>
+                                        <a href="https://www.credly.com/users/yunal-hettiarachchi" target="_blank" rel="noopener noreferrer" class="btn">
+                                            <span>Credly Profile</span>
+                                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                                <polyline points="15 3 21 3 21 9"></polyline>
+                                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Work Section -->
+            <div id="work" class="section">
+                <div class="container-wide">
+                    <div style="text-align: center; margin-bottom: 3rem;">
+                        <h2>Experience & Activities</h2>
+                        <p class="subtitle">Professional development and achievements</p>
+                    </div>
+
+                    <div class="card mb-8">
+                        <h3 class="mb-4">Current Education</h3>
+                        <p class="text-highlight mb-2" style="font-size: 1.25rem;">Cisco Network Technician Training</p>
+                        <p class="text-muted">Vocational Training Authority, Narahenpita</p>
+                        <p class="text-muted mt-2">Expected Completion: 2025</p>
+                    </div>
+
+                    <div class="grid grid-3 mb-8">
+                        <div class="activity-card">
+                            <div class="activity-icon">🎤</div>
+                            <div class="badge mb-3">Media</div>
+                            <h4 class="mb-2">Media English Announcer</h4>
+                            <p class="text-highlight mb-3" style="font-size: 0.875rem;">2024</p>
+                            <p class="text-muted" style="font-size: 0.875rem;">
+                                Serving as a Media English Announcer, showcasing strong communication and public speaking abilities.
+                            </p>
+                        </div>
+
+                        <div class="activity-card">
+                            <div class="activity-icon">🌐</div>
+                            <div class="badge mb-3">Technical</div>
+                            <h4 class="mb-2">LAN Topology Simulation</h4>
+                            <p class="text-highlight mb-3" style="font-size: 0.875rem;">Ongoing</p>
+                            <p class="text-muted" style="font-size: 0.875rem;">
+                                Configured and simulated LAN topologies using Cisco Packet Tracer to validate switching and inter-VLAN communication.
+                            </p>
+                        </div>
+
+                        <div class="activity-card">
+                            <div class="activity-icon">💻</div>
+                            <div class="badge mb-3">Technical</div>
+                            <h4 class="mb-2">Networking Lab Build-Out</h4>
+                            <p class="text-highlight mb-3" style="font-size: 0.875rem;">2024</p>
+                            <p class="text-muted" style="font-size: 0.875rem;">
+                                Configured a 12-PC computer lab within a small room, including network setup, cable management, and hardware installation.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="mb-6">Technical Projects & Lab Work</h3>
+                        <div class="skill-list">
+                            <div class="skill-item">
+                                <h4>Network Configuration & Troubleshooting</h4>
+                                <p class="text-muted" style="font-size: 0.875rem; margin-top: 0.5rem;">
+                                    Hands-on experience with physical installations and hardware maintenance, including network 
+                                    topology configuration and performance optimization.
+                                </p>
+                            </div>
+                            <div class="skill-item">
+                                <h4>VLAN & Switching Implementation</h4>
+                                <p class="text-muted" style="font-size: 0.875rem; margin-top: 0.5rem;">
+                                    Configured and validated inter-VLAN communication using Cisco Packet Tracer, demonstrating 
+                                    proficiency in network segmentation and switching protocols.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Skills Section -->
+            <div id="skills" class="section">
+                <div class="container-wide">
+                    <div style="text-align: center; margin-bottom: 3rem;">
+                        <h2>Skills & Abilities</h2>
+                        <p class="subtitle">Technical expertise and professional capabilities</p>
+                    </div>
+
+                    <div class="grid grid-3 mb-8">
+                        <div class="card">
+                            <h3 class="mb-4">Networking</h3>
+                            <div class="skill-list">
+                                <div class="skill-item"><div class="bullet"></div><span>TCP/IP Protocol Suite</span></div>
+                                <div class="skill-item"><div class="bullet"></div><span>LAN/WAN Configuration</span></div>
+                                <div class="skill-item"><div class="bullet"></div><span>Subnetting & IP Addressing</span></div>
+                                <div class="skill-item"><div class="bullet"></div><span>VLANs Management</span></div>
+                                <div class="skill-item"><div class="bullet"></div><span>Access Control Lists (ACLs)</span></div>
+                                <div class="skill-item"><div class="bullet"></div><span>DHCP Configuration</span></div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <h3 class="mb-4">Systems Administration</h3>
+                            <div class="skill-list">
+                                <div class="skill-item"><div class="bullet"></div><span>Windows Server Installation & Configuration</span></div>
+                                <div class="skill-item"><div class="bullet"></div><span>Linux Administration (Basic)</span></div>
+                                <div class="skill-item"><div class="bullet"></div><span>Kali Linux (Introduction)</span></div>
+                                <div class="skill-item"><div class="bullet"></div><span>Hardware Maintenance</span></div>
+                                <div class="skill-item"><div class="bullet"></div><span>Physical Installations</span></div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <h3 class="mb-4">Tools & Software</h3>
+                            <div class="skill-list">
+                                <div class="skill-item"><div class="bullet"></div><span>Cisco Packet Tracer</span></div>
+                                <div class="skill-item"><div class="bullet"></div><span>MS Office Suite</span></div>
+                                <div class="skill-item"><div class="bullet"></div><span>Adobe Photoshop</span></div>
+                                <div class="skill-item"><div class="bullet"></div><span>CapCut Video Editing</span></div>
+                                <div class="skill-item"><div class="bullet"></div><span>Network Diagnostic Tools</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card mb-8">
+                        <h3 class="mb-6">Professional Qualifications</h3>
+                        <div class="grid grid-2">
+                            <div style="background: linear-gradient(to bottom right, rgba(59, 130, 246, 0.1), rgba(34, 211, 238, 0.1)); padding: 1.5rem; border-radius: 0.75rem; border: 1px solid rgba(59, 130, 246, 0.2);">
+                                <h4 class="mb-2">CCNAv7</h4>
+                                <p class="text-muted">Cisco Certified Network Associate</p>
+                                <p class="text-highlight mt-2" style="font-size: 0.875rem;">Industry-recognized certification</p>
+                            </div>
+                            <div style="background: linear-gradient(to bottom right, rgba(16, 185, 129, 0.1), rgba(34, 197, 94, 0.1)); padding: 1.5rem; border-radius: 0.75rem; border: 1px solid rgba(16, 185, 129, 0.2);">
+                                <h4 class="mb-2">NVQ Level 4</h4>
+                                <p class="text-muted">Computer Network Technician</p>
+                                <p class="text-success mt-2" style="font-size: 0.875rem;">National Vocational Qualification</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="mb-6">Professional Strengths</h3>
+                        <div class="grid grid-3">
+                            <div style="text-align: center; padding: 1rem; background: rgba(255, 255, 255, 0.05); border-radius: 0.5rem;">Strong Communication</div>
+                            <div style="text-align: center; padding: 1rem; background: rgba(255, 255, 255, 0.05); border-radius: 0.5rem;">Interpersonal Skills</div>
+                            <div style="text-align: center; padding: 1rem; background: rgba(255, 255, 255, 0.05); border-radius: 0.5rem;">Collaborative Teamwork</div>
+                            <div style="text-align: center; padding: 1rem; background: rgba(255, 255, 255, 0.05); border-radius: 0.5rem;">Technical Information Conveyance</div>
+                            <div style="text-align: center; padding: 1rem; background: rgba(255, 255, 255, 0.05); border-radius: 0.5rem;">High Energy & Work Ethic</div>
+                            <div style="text-align: center; padding: 1rem; background: rgba(255, 255, 255, 0.05); border-radius: 0.5rem;">Fast-Paced Adaptability</div>
+                            <div style="text-align: center; padding: 1rem; background: rgba(255, 255, 255, 0.05); border-radius: 0.5rem;">Hands-on Problem Solving</div>
+                            <div style="text-align: center; padding: 1rem; background: rgba(255, 255, 255, 0.05); border-radius: 0.5rem;">Rapid Technology Absorption</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Learning Section -->
+            <div id="learning" class="section">
+                <div class="container-wide">
+                    <div style="text-align: center; margin-bottom: 3rem;">
+                        <h2>Learning Journey</h2>
+                        <p class="subtitle">Continuous growth and professional development</p>
+                    </div>
+
+                    <div class="mb-8">
+                        <h3 class="mb-6">Certifications & Achievements</h3>
+                        <div class="grid grid-3">
+                            <div class="cert-card">
+                                <div style="font-size: 3rem; margin-bottom: 1rem;">🏆</div>
+                                <h4 class="mb-2">CCNAv7 (Cisco Certified Network Associate)</h4>
+                                <p class="text-rose mb-2" style="font-size: 0.875rem;">Cisco</p>
+                                <p class="text-muted mb-3" style="font-size: 0.875rem;">
+                                    Comprehensive networking certification covering routing, switching, and network fundamentals
+                                </p>
+                                <p class="text-highlight" style="font-size: 0.875rem;">2024</p>
+                            </div>
+
+                            <div class="cert-card">
+                                <div style="font-size: 3rem; margin-bottom: 1rem;">🎓</div>
+                                <h4 class="mb-2">NVQ Level 4 – Computer Network Technician</h4>
+                                <p class="text-rose mb-2" style="font-size: 0.875rem;">Vocational Training Authority</p>
+                                <p class="text-muted mb-3" style="font-size: 0.875rem;">
+                                    National vocational qualification in computer network technology
+                                </p>
+                                <p class="text-highlight" style="font-size: 0.875rem;">2024</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card mb-8">
+                        <h3 class="mb-6">Currently Learning & Developing</h3>
+                        <div class="grid grid-2">
+                            <div class="skill-item">Advanced Cisco Networking</div>
+                            <div class="skill-item">Network Security & Penetration Testing</div>
+                            <div class="skill-item">Linux System Administration</div>
+                            <div class="skill-item">Cloud Computing Fundamentals</div>
+                            <div class="skill-item">Network Automation & Scripting</div>
+                            <div class="skill-item">Advanced Troubleshooting Techniques</div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="mb-6">Education & Career Timeline</h3>
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-marker">2024-2025</div>
+                                <div class="timeline-content">
+                                    <h4 class="mb-2">Cisco Network Technician Training</h4>
+                                    <p class="text-rose mb-2">Vocational Training Authority, Narahenpita</p>
+                                    <p class="text-muted">Pursuing entry-level technical position preparation with comprehensive networking training</p>
+                                </div>
+                            </div>
+
+                            <div class="timeline-item">
+                                <div class="timeline-marker">2024</div>
+                                <div class="timeline-content">
+                                    <h4 class="mb-2">Media English Announcer</h4>
+                                    <p class="text-rose mb-2">Current Role</p>
+                                    <p class="text-muted">Developing communication and public speaking skills through media presentation</p>
+                                </div>
+                            </div>
+
+                            <div class="timeline-item">
+                                <div class="timeline-marker">2024</div>
+                                <div class="timeline-content">
+                                    <h4 class="mb-2">NVQ Level 4 Certification</h4>
+                                    <p class="text-rose mb-2">Computer Network Technician</p>
+                                    <p class="text-muted">Achieved national vocational qualification in network technology</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Section -->
+            <div id="contact" class="section">
+                <div class="container-wide">
+                    <div style="text-align: center; margin-bottom: 3rem;">
+                        <h2>Get In Touch</h2>
+                        <p class="subtitle">Let's discuss opportunities and collaborations</p>
+                    </div>
+
+                    <div class="grid grid-2 mb-8">
+                        <div>
+                            <div class="card mb-6">
+                                <h3 class="mb-6">Contact Information</h3>
+                                
+                                <div class="mb-4">
+                                    <div class="text-muted mb-2" style="font-size: 0.875rem;">Email</div>
+                                    <a href="mailto:yunalhettiarachchi@gmail.com" style="color: white; text-decoration: none;">
+                                        yunalhettiarachchi@gmail.com
+                                    </a>
+                                </div>
+
+                                <div class="mb-4">
+                                    <div class="text-muted mb-2" style="font-size: 0.875rem;">Phone</div>
+                                    <a href="tel:+94720374022" style="color: white; text-decoration: none;">
+                                        +94 72 037 4022
+                                    </a>
+                                </div>
+
+                                <div class="mb-6">
+                                    <div class="text-muted mb-2" style="font-size: 0.875rem;">Address</div>
+                                    <div>41/30, Station Rd, Gangodawila</div>
+                                    <div>Nugegoda, Colombo, Sri Lanka</div>
+                                </div>
+
+                                <div style="padding-top: 1.5rem; border-top: 1px solid rgba(255, 255, 255, 0.2);">
+                                    <h4 class="mb-4">Connect With Me</h4>
+                                    <a href="https://linkedin.com/in/yunal-hettiarachchi-1227b4374" target="_blank" rel="noopener noreferrer" class="btn" style="width: 100%; justify-content: center;">
+                                        LinkedIn Profile
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="card">
+                                <h4 class="mb-3">Availability</h4>
+                                <p class="text-muted">
+                                    Currently seeking entry-level technical positions in network administration and IT support. 
+                                    Open to full-time opportunities and eager to contribute to dynamic teams.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="card">
+                                <h3 class="mb-6">Send a Message</h3>
+                                
+                                <form id="contactForm">
+                                    <div class="form-group">
+                                        <label class="form-label" for="name">Your Name</label>
+                                        <input type="text" id="name" class="form-input" placeholder="John Doe" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label" for="email">Email Address</label>
+                                        <input type="email" id="email" class="form-input" placeholder="john@example.com" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label" for="message">Message</label>
+                                        <textarea id="message" class="form-textarea" placeholder="I'd like to discuss an opportunity..." required></textarea>
+                                    </div>
+
+                                    <button type="submit" class="btn-submit">Send Message</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="mb-6">Professional References</h3>
+                        <div class="grid grid-2">
+                            <div class="card">
+                                <h4 class="mb-2">K.A.R. DILSHAN</h4>
+                                <p class="text-highlight mb-2">Instructor</p>
+                                <p class="text-muted mb-4" style="font-size: 0.875rem;">NVTI - Narahrnpita</p>
+                                <div class="text-muted" style="font-size: 0.875rem;">
+                                    <div class="mb-2">📞 +94 75-399-8830</div>
+                                    <div>✉️ dilshan.ramesh7@gmail.com</div>
+                                </div>
+                            </div>
+
+                            <div class="card">
+                                <h4 class="mb-2">SUMITH PRIYADHARSHANA</h4>
+                                <p class="text-highlight mb-2">Trainee Officer</p>
+                                <p class="text-muted mb-4" style="font-size: 0.875rem;">NVTI - Narahrnpita</p>
+                                <div class="text-muted" style="font-size: 0.875rem;">
+                                    <div class="mb-2">📞 +94 71-966-0564</div>
+                                    <div>✉️ cgjp@dasl.gov.lk</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Particle Animation
+        function initParticles(canvasId) {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return;
+
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const particles = [];
+            const particleCount = 200;
+
+            // Create particles
+            for (let i = 0; i < particleCount; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 2 + 0.5,
+                    speedX: (Math.random() - 0.5) * 0.5,
+                    speedY: (Math.random() - 0.5) * 0.5,
+                    opacity: Math.random() * 0.5 + 0.2
+                });
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                particles.forEach((particle, i) => {
+                    // Update position
+                    particle.x += particle.speedX;
+                    particle.y += particle.speedY;
+
+                    // Wrap around edges
+                    if (particle.x < 0) particle.x = canvas.width;
+                    if (particle.x > canvas.width) particle.x = 0;
+                    if (particle.y < 0) particle.y = canvas.height;
+                    if (particle.y > canvas.height) particle.y = 0;
+
+                    // Draw particle
+                    ctx.beginPath();
+                    ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(255, 255, 255, ${particle.opacity})`;
+                    ctx.fill();
+
+                    // Draw connections
+                    particles.forEach((particle2, j) => {
+                        if (i === j) return;
+                        const dx = particle.x - particle2.x;
+                        const dy = particle.y - particle2.y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+
+                        if (distance < 100) {
+                            ctx.beginPath();
+                            ctx.moveTo(particle.x, particle.y);
+                            ctx.lineTo(particle2.x, particle2.y);
+                            ctx.strokeStyle = `rgba(255, 255, 255, ${0.1 * (1 - distance / 100)})`;
+                            ctx.lineWidth = 0.5;
+                            ctx.stroke();
+                        }
+                    });
+                });
+
+                requestAnimationFrame(animate);
+            }
+
+            animate();
+
+            window.addEventListener('resize', () => {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            });
+        }
+
+        // Splash Screen
+        const splashScreen = document.getElementById('splashScreen');
+        const mainContainer = document.getElementById('mainContainer');
+
+        initParticles('splashCanvas');
+
+        setTimeout(() => {
+            splashScreen.classList.add('hidden');
+            mainContainer.classList.add('visible');
+            initParticles('particleCanvas');
+        }, 3500);
+
+        // Navigation
+        const navButtons = document.querySelectorAll('.nav-btn');
+        const sections = document.querySelectorAll('.section');
+        const bgGradient = document.getElementById('bgGradient');
+
+        const bgClasses = {
+            'about': 'bg-about',
+            'work': 'bg-work',
+            'skills': 'bg-skills',
+            'learning': 'bg-learning',
+            'contact': 'bg-contact'
+        };
+
+        navButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const targetSection = btn.getAttribute('data-section');
+                
+                // Update active button
+                navButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                // Update active section
+                sections.forEach(s => s.classList.remove('active'));
+                document.getElementById(targetSection).classList.add('active');
+                
+                // Update background
+                Object.values(bgClasses).forEach(cls => bgGradient.classList.remove(cls));
+                bgGradient.classList.add(bgClasses[targetSection]);
+            });
+        });
+
+        // Contact Form
+        const contactForm = document.getElementById('contactForm');
+        if (contactForm) {
+            contactForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                alert('Thank you for your message! I will get back to you soon.');
+                contactForm.reset();
+            });
+        }
+    </script>
+</body>
+</html>

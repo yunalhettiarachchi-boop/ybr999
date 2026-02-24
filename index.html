@@ -14,7 +14,7 @@
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             color: #ffffff;
-            background: linear-gradient(135deg, #0a192f, #112240, #0a192f);
+            background: #0a192f;
         }
 
         /* Beast Code Theme Colors */
@@ -31,11 +31,41 @@
             --cyan-light: rgba(100, 255, 218, 0.3);
         }
 
+        /* =====================
+           VIDEO BACKGROUND
+        ===================== */
+        .video-background {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .video-background video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+        }
+
+        /* Dark overlay so text remains readable */
+        .video-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(10, 25, 47, 0.75);
+            /* subtle vignette for depth */
+            background: radial-gradient(ellipse at center, rgba(10,25,47,0.55) 0%, rgba(10,25,47,0.85) 100%);
+        }
+
         /* Splash Screen Styles */
         .splash-screen {
             position: fixed;
             inset: 0;
-            background: linear-gradient(135deg, #0a192f, #112240, #0a192f);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -61,7 +91,7 @@
             font-weight: 700;
             margin-bottom: 1rem;
             color: var(--lightest-slate);
-            text-shadow: 0 0 10px var(--cyan);
+            text-shadow: 0 0 20px var(--cyan), 0 0 40px rgba(100,255,218,0.3);
             animation: splashScale 0.8s ease-out 0.5s both;
         }
 
@@ -104,23 +134,6 @@
         }
 
         .main-container.visible {
-            opacity: 1;
-        }
-
-        /* Background Gradient */
-        .background-gradient {
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            background: linear-gradient(135deg, #0a192f, #112240, #0a192f);
-        }
-
-        /* Particle Canvas */
-        #particleCanvas, #splashCanvas {
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            z-index: 1;
             opacity: 1;
         }
 
@@ -178,13 +191,14 @@
 
         /* Cards */
         .card {
-            background: rgba(17, 34, 64, 0.7);
-            backdrop-filter: blur(16px);
+            background: rgba(10, 25, 47, 0.65);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border-radius: 10px;
             padding: 2rem;
             border: 1px solid var(--cyan-transparent);
             margin-bottom: 2rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
             transition: all 0.3s ease;
         }
 
@@ -192,6 +206,7 @@
             transform: translateY(-5px);
             border-color: var(--cyan-light);
             box-shadow: 0 15px 40px rgba(100, 255, 218, 0.1);
+            background: rgba(10, 25, 47, 0.75);
         }
 
         .container {
@@ -467,8 +482,9 @@
 
         /* Activity Card */
         .activity-card {
-            background: rgba(17, 34, 64, 0.7);
-            backdrop-filter: blur(16px);
+            background: rgba(10, 25, 47, 0.65);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border-radius: 8px;
             padding: 1.5rem;
             border: 1px solid var(--cyan-transparent);
@@ -491,8 +507,9 @@
 
         /* Certification Card */
         .cert-card {
-            background: linear-gradient(135deg, rgba(100, 255, 218, 0.05), rgba(17, 34, 64, 0.8));
-            backdrop-filter: blur(16px);
+            background: linear-gradient(135deg, rgba(100, 255, 218, 0.05), rgba(10, 25, 47, 0.75));
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border-radius: 8px;
             padding: 1.5rem;
             border: 1px solid var(--cyan-transparent);
@@ -604,91 +621,9 @@
             }
         }
 
-        /* Glowing Orbs - Updated for Beast Code theme */
-        .glowing-orb {
-            position: fixed;
-            border-radius: 50%;
-            filter: blur(60px);
-            pointer-events: none;
-            z-index: 1;
-            animation: float 6s ease-in-out infinite;
-            opacity: 0.3;
-        }
-
-        .orb-1 {
-            width: 400px;
-            height: 400px;
-            left: 20%;
-            top: 20%;
-            background: radial-gradient(circle, rgba(100, 255, 218, 0.4), transparent 70%);
-        }
-
-        .orb-2 {
-            width: 300px;
-            height: 300px;
-            right: 15%;
-            top: 40%;
-            background: radial-gradient(circle, rgba(100, 255, 218, 0.3), transparent 70%);
-            animation-delay: -2s;
-            animation-duration: 8s;
-        }
-
-        .orb-3 {
-            width: 250px;
-            height: 250px;
-            left: 10%;
-            bottom: 20%;
-            background: radial-gradient(circle, rgba(100, 255, 218, 0.2), transparent 70%);
-            animation-delay: -4s;
-            animation-duration: 7s;
-        }
-
-        @keyframes float {
-            0%, 100% {
-                transform: translate(0, 0) scale(1);
-                opacity: 0.2;
-            }
-            50% {
-                transform: translate(50px, -30px) scale(1.1);
-                opacity: 0.4;
-            }
-        }
-
         /* Smooth scroll */
         html {
             scroll-behavior: smooth;
-        }
-
-        /* Code-like decorations */
-        .code-line {
-            position: fixed;
-            background: rgba(100, 255, 218, 0.1);
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .line-1 {
-            top: 20%;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(to right, transparent, var(--cyan), transparent);
-        }
-
-        .line-2 {
-            top: 60%;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(to right, transparent, var(--cyan), transparent);
-        }
-
-        .vertical-line {
-            left: 30%;
-            top: 0;
-            bottom: 0;
-            width: 1px;
-            background: linear-gradient(to bottom, transparent, var(--cyan), transparent);
         }
 
         /* Scroll progress indicator */
@@ -698,20 +633,35 @@
             left: 0;
             width: 0%;
             height: 3px;
-            background: linear-gradient(to right, var(--cyan), #0a192f);
+            background: linear-gradient(to right, var(--cyan), rgba(100,255,218,0.2));
             z-index: 1000;
             transition: width 0.1s;
+            box-shadow: 0 0 8px var(--cyan);
         }
     </style>
 </head>
 <body>
+
+    <!-- =====================
+         VIDEO BACKGROUND
+    ===================== -->
+    <div class="video-background">
+        <video autoplay muted loop playsinline>
+            <!--
+                Place your video file in the same folder as this HTML file
+                and name it: mixkit-stars-in-space-background-1610-hd-ready.mp4
+            -->
+            <source src="mixkit-stars-in-space-background-1610-hd-ready.mp4" type="video/mp4">
+        </video>
+        <div class="video-overlay"></div>
+    </div>
+
     <!-- Splash Screen -->
     <div id="splashScreen" class="splash-screen">
-        <canvas id="splashCanvas"></canvas>
         <div class="splash-content">
             <h1 class="splash-name">Yunal Banuja Hettiarachchi</h1>
             <div class="splash-line"></div>
-            <p class="splash-subtitle">Network Technician & IT Professional</p>
+            <p class="splash-subtitle">Network Technician &amp; IT Professional</p>
         </div>
     </div>
 
@@ -720,21 +670,6 @@
 
     <!-- Main Container -->
     <div id="mainContainer" class="main-container">
-        <!-- Background Gradient -->
-        <div class="background-gradient"></div>
-        
-        <!-- Code-like decorations -->
-        <div class="code-line line-1"></div>
-        <div class="code-line line-2"></div>
-        <div class="code-line vertical-line"></div>
-        
-        <!-- Glowing Orbs -->
-        <div class="glowing-orb orb-1"></div>
-        <div class="glowing-orb orb-2"></div>
-        <div class="glowing-orb orb-3"></div>
-
-        <!-- Particle Canvas -->
-        <canvas id="particleCanvas"></canvas>
 
         <!-- Content Sections -->
         <div class="content">
@@ -743,7 +678,7 @@
                 <div class="container">
                     <div class="section-header">
                         <h2>About Me</h2>
-                        <p class="section-subtitle">Network Technician & IT Professional</p>
+                        <p class="section-subtitle">Network Technician &amp; IT Professional</p>
                     </div>
                     
                     <div class="card">
@@ -753,7 +688,7 @@
                             </div>
                             <div class="profile-info">
                                 <h1>Yunal Banuja Hettiarachchi</h1>
-                                <p class="subtitle">Network Technician & IT Professional</p>
+                                <p class="subtitle">Network Technician &amp; IT Professional</p>
                                 <div class="meta-info">
                                     <div class="meta-item">
                                         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -813,7 +748,7 @@
                                 <div style="display: flex; align-items: center; gap: 1rem;">
                                     <div style="font-size: 3rem; color: var(--cyan);">🏅</div>
                                     <div style="flex: 1;">
-                                        <p class="mb-2 text-highlight">View My Professional Badges & Certifications</p>
+                                        <p class="mb-2 text-highlight">View My Professional Badges &amp; Certifications</p>
                                         <a href="https://www.credly.com/users/yunal-hettiarachchi" target="_blank" rel="noopener noreferrer" class="btn">
                                             <span>Credly Profile</span>
                                             <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -835,7 +770,7 @@
                 <div class="container-wide">
                     <div class="section-header">
                         <h2>My Work</h2>
-                        <p class="section-subtitle">Experience & Activities</p>
+                        <p class="section-subtitle">Experience &amp; Activities</p>
                     </div>
 
                     <div class="card mb-8">
@@ -878,21 +813,25 @@
                     </div>
 
                     <div class="card">
-                        <h3 class="mb-6">Technical Projects & Lab Work</h3>
+                        <h3 class="mb-6">Technical Projects &amp; Lab Work</h3>
                         <div class="skill-list">
                             <div class="skill-item">
-                                <h4>Network Configuration & Troubleshooting</h4>
-                                <p class="text-muted" style="font-size: 0.875rem; margin-top: 0.5rem;">
-                                    Hands-on experience with physical installations and hardware maintenance, including network 
-                                    topology configuration and performance optimization.
-                                </p>
+                                <div>
+                                    <h4>Network Configuration &amp; Troubleshooting</h4>
+                                    <p class="text-muted" style="font-size: 0.875rem; margin-top: 0.5rem;">
+                                        Hands-on experience with physical installations and hardware maintenance, including network 
+                                        topology configuration and performance optimization.
+                                    </p>
+                                </div>
                             </div>
                             <div class="skill-item">
-                                <h4>VLAN & Switching Implementation</h4>
-                                <p class="text-muted" style="font-size: 0.875rem; margin-top: 0.5rem;">
-                                    Configured and validated inter-VLAN communication using Cisco Packet Tracer, demonstrating 
-                                    proficiency in network segmentation and switching protocols.
-                                </p>
+                                <div>
+                                    <h4>VLAN &amp; Switching Implementation</h4>
+                                    <p class="text-muted" style="font-size: 0.875rem; margin-top: 0.5rem;">
+                                        Configured and validated inter-VLAN communication using Cisco Packet Tracer, demonstrating 
+                                        proficiency in network segmentation and switching protocols.
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -903,7 +842,7 @@
             <div class="section" id="skills-section">
                 <div class="container-wide">
                     <div class="section-header">
-                        <h2>Skills & Talents</h2>
+                        <h2>Skills &amp; Talents</h2>
                         <p class="section-subtitle">Technical expertise and professional capabilities</p>
                     </div>
 
@@ -913,7 +852,7 @@
                             <div class="skill-list">
                                 <div class="skill-item"><div class="bullet"></div><span>TCP/IP Protocol Suite</span></div>
                                 <div class="skill-item"><div class="bullet"></div><span>LAN/WAN Configuration</span></div>
-                                <div class="skill-item"><div class="bullet"></div><span>Subnetting & IP Addressing</span></div>
+                                <div class="skill-item"><div class="bullet"></div><span>Subnetting &amp; IP Addressing</span></div>
                                 <div class="skill-item"><div class="bullet"></div><span>VLANs Management</span></div>
                                 <div class="skill-item"><div class="bullet"></div><span>Access Control Lists (ACLs)</span></div>
                                 <div class="skill-item"><div class="bullet"></div><span>DHCP Configuration</span></div>
@@ -923,7 +862,7 @@
                         <div class="card">
                             <h3 class="mb-4">Systems Administration</h3>
                             <div class="skill-list">
-                                <div class="skill-item"><div class="bullet"></div><span>Windows Server Installation & Configuration</span></div>
+                                <div class="skill-item"><div class="bullet"></div><span>Windows Server Installation &amp; Configuration</span></div>
                                 <div class="skill-item"><div class="bullet"></div><span>Linux Administration (Basic)</span></div>
                                 <div class="skill-item"><div class="bullet"></div><span>Kali Linux (Introduction)</span></div>
                                 <div class="skill-item"><div class="bullet"></div><span>Hardware Maintenance</span></div>
@@ -932,7 +871,7 @@
                         </div>
 
                         <div class="card">
-                            <h3 class="mb-4">Tools & Software</h3>
+                            <h3 class="mb-4">Tools &amp; Software</h3>
                             <div class="skill-list">
                                 <div class="skill-item"><div class="bullet"></div><span>Cisco Packet Tracer</span></div>
                                 <div class="skill-item"><div class="bullet"></div><span>MS Office Suite</span></div>
@@ -966,7 +905,7 @@
                             <div class="skill-item">Interpersonal Skills</div>
                             <div class="skill-item">Collaborative Teamwork</div>
                             <div class="skill-item">Technical Information Conveyance</div>
-                            <div class="skill-item">High Energy & Work Ethic</div>
+                            <div class="skill-item">High Energy &amp; Work Ethic</div>
                             <div class="skill-item">Fast-Paced Adaptability</div>
                             <div class="skill-item">Hands-on Problem Solving</div>
                             <div class="skill-item">Rapid Technology Absorption</div>
@@ -984,7 +923,7 @@
                     </div>
 
                     <div class="mb-8">
-                        <h3 class="mb-6">Certifications & Achievements</h3>
+                        <h3 class="mb-6">Certifications &amp; Achievements</h3>
                         <div class="grid grid-3">
                             <div class="cert-card">
                                 <div style="font-size: 3rem; margin-bottom: 1rem; color: var(--cyan);">🏆</div>
@@ -1009,19 +948,19 @@
                     </div>
 
                     <div class="card mb-8">
-                        <h3 class="mb-6">Currently Learning & Developing</h3>
+                        <h3 class="mb-6">Currently Learning &amp; Developing</h3>
                         <div class="grid grid-2">
                             <div class="skill-item">Advanced Cisco Networking</div>
-                            <div class="skill-item">Network Security & Penetration Testing</div>
+                            <div class="skill-item">Network Security &amp; Penetration Testing</div>
                             <div class="skill-item">Linux System Administration</div>
                             <div class="skill-item">Cloud Computing Fundamentals</div>
-                            <div class="skill-item">Network Automation & Scripting</div>
+                            <div class="skill-item">Network Automation &amp; Scripting</div>
                             <div class="skill-item">Advanced Troubleshooting Techniques</div>
                         </div>
                     </div>
 
                     <div class="card">
-                        <h3 class="mb-6">Education & Career Timeline</h3>
+                        <h3 class="mb-6">Education &amp; Career Timeline</h3>
                         <div class="timeline">
                             <div class="timeline-item">
                                 <div class="timeline-marker">2024-2025</div>
@@ -1159,114 +1098,18 @@
         </div>
 
         <!-- Back to Top Button -->
-        <div id="backToTop" class="back-to-top">
-            ↑
-        </div>
+        <div id="backToTop" class="back-to-top">↑</div>
     </div>
 
     <script>
-        // Particle Animation - BRIGHT WHITE PARTICLES
-        function initParticles(canvasId) {
-            const canvas = document.getElementById(canvasId);
-            if (!canvas) return;
-
-            const ctx = canvas.getContext('2d');
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-
-            const particles = [];
-            const particleCount = canvasId === 'splashCanvas' ? 150 : 300;
-
-            // Create BRIGHT WHITE particles
-            for (let i = 0; i < particleCount; i++) {
-                particles.push({
-                    x: Math.random() * canvas.width,
-                    y: Math.random() * canvas.height,
-                    size: Math.random() * 3 + 1,
-                    speedX: (Math.random() - 0.5) * 0.8,
-                    speedY: (Math.random() - 0.5) * 0.8,
-                    opacity: Math.random() * 0.8 + 0.2,
-                    glow: Math.random() * 0.5 + 0.5
-                });
-            }
-
-            function animate() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-                particles.forEach((particle, i) => {
-                    // Update position
-                    particle.x += particle.speedX;
-                    particle.y += particle.speedY;
-
-                    // Wrap around edges
-                    if (particle.x < 0) particle.x = canvas.width;
-                    if (particle.x > canvas.width) particle.x = 0;
-                    if (particle.y < 0) particle.y = canvas.height;
-                    if (particle.y > canvas.height) particle.y = 0;
-
-                    // Draw particle with glow effect
-                    const gradient = ctx.createRadialGradient(
-                        particle.x, particle.y, 0,
-                        particle.x, particle.y, particle.size * 2
-                    );
-                    
-                    gradient.addColorStop(0, `rgba(255, 255, 255, ${particle.opacity})`);
-                    gradient.addColorStop(0.5, `rgba(255, 255, 255, ${particle.opacity * 0.5})`);
-                    gradient.addColorStop(1, `rgba(255, 255, 255, 0)`);
-                    
-                    ctx.beginPath();
-                    ctx.arc(particle.x, particle.y, particle.size * 2, 0, Math.PI * 2);
-                    ctx.fillStyle = gradient;
-                    ctx.fill();
-
-                    // Draw bright white core
-                    ctx.beginPath();
-                    ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-                    ctx.fillStyle = `rgba(255, 255, 255, ${particle.opacity + 0.2})`;
-                    ctx.fill();
-
-                    // Draw connections with bright white lines
-                    particles.forEach((particle2, j) => {
-                        if (i === j) return;
-                        const dx = particle.x - particle2.x;
-                        const dy = particle.y - particle2.y;
-                        const distance = Math.sqrt(dx * dx + dy * dy);
-
-                        if (distance < 100) {
-                            ctx.beginPath();
-                            ctx.moveTo(particle.x, particle.y);
-                            ctx.lineTo(particle2.x, particle2.y);
-                            
-                            const lineOpacity = 0.3 * (1 - distance / 100);
-                            ctx.strokeStyle = `rgba(255, 255, 255, ${lineOpacity})`;
-                            ctx.lineWidth = 1;
-                            ctx.stroke();
-                        }
-                    });
-                });
-
-                requestAnimationFrame(animate);
-            }
-
-            animate();
-
-            window.addEventListener('resize', () => {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-            });
-        }
-
         // Splash Screen
         const splashScreen = document.getElementById('splashScreen');
         const mainContainer = document.getElementById('mainContainer');
         const scrollProgress = document.getElementById('scrollProgress');
 
-        initParticles('splashCanvas');
-
         setTimeout(() => {
             splashScreen.classList.add('hidden');
             mainContainer.classList.add('visible');
-            initParticles('particleCanvas');
         }, 3500);
 
         // Scroll Progress
@@ -1275,8 +1118,7 @@
             const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
             const scrolled = (winScroll / height) * 100;
             scrollProgress.style.width = scrolled + "%";
-            
-            // Show/hide back to top button
+
             const backToTop = document.getElementById('backToTop');
             if (winScroll > 300) {
                 backToTop.classList.add('visible');
@@ -1286,12 +1128,8 @@
         });
 
         // Back to Top Button
-        const backToTop = document.getElementById('backToTop');
-        backToTop.addEventListener('click', () => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
+        document.getElementById('backToTop').addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         });
 
         // Contact Form
@@ -1304,12 +1142,7 @@
             });
         }
 
-        // Add scroll animations for sections
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
+        // Scroll animations
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -1317,9 +1150,8 @@
                     entry.target.style.transform = 'translateY(0)';
                 }
             });
-        }, observerOptions);
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
-        // Observe all sections
         document.querySelectorAll('.section').forEach(section => {
             observer.observe(section);
         });

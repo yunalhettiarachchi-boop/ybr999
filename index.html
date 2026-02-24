@@ -33,19 +33,26 @@
         /* ══════════════════════════════════
            VIDEO — as bright as possible
         ══════════════════════════════════ */
-        .video-bg { position:fixed; inset:0; z-index:0; overflow:hidden; }
+        .video-bg {
+            position:fixed; inset:0; z-index:0; overflow:hidden;
+            /* Star-field fallback in case video doesn't load */
+            background: radial-gradient(ellipse at 20% 30%, #0d2137 0%, #020810 60%),
+                        radial-gradient(ellipse at 80% 70%, #0a1a2e 0%, #020810 60%);
+        }
         .video-bg video {
             position:absolute; top:50%; left:50%;
             min-width:100%; min-height:100%;
+            width:100%; height:100%;
             transform:translate(-50%,-50%);
             object-fit:cover;
-            /* Maximum brightness so stars glow hard */
-            filter: brightness(1.0) saturate(1.6) contrast(1.2);
+            /* Full brightness — no dimming */
+            filter: brightness(1.0) saturate(1.5) contrast(1.1);
         }
-        /* The lightest possible overlay — just barely takes the edge off */
+        /* Ultra-light overlay — barely there */
         .video-bg::after {
             content:''; position:absolute; inset:0;
-            background: rgba(2,8,16,0.22);
+            background: rgba(2,8,16,0.15);
+            pointer-events:none;
         }
 
         /* ══════════════════════════════════
@@ -427,8 +434,8 @@
 <body>
 
 <!-- VIDEO — stars fully visible -->
-<div class="video-bg">
-    <video autoplay muted loop playsinline>
+<div class="video-bg" id="videoBg">
+    <video id="bgVideo" autoplay muted loop playsinline preload="auto">
         <source src="mixkit-stars-in-space-background-1610-hd-ready.mp4" type="video/mp4">
     </video>
 </div>
@@ -778,6 +785,25 @@
 <div id="backToTop">↑</div>
 
 <script>
+  // Force video play (handles browser autoplay policy)
+  const bgVideo = document.getElementById('bgVideo');
+  if (bgVideo) {
+    bgVideo.muted = true;
+    const playPromise = bgVideo.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(() => {
+        // If autoplay blocked, try on first user interaction
+        document.addEventListener('click', () => bgVideo.play(), { once: true });
+        document.addEventListener('touchstart', () => bgVideo.play(), { once: true });
+      });
+    }
+    // If video file missing, show animated star fallback
+    bgVideo.addEventListener('error', () => {
+      document.getElementById('videoBg').style.background =
+        'radial-gradient(ellipse at 50% 50%, #0a1628 0%, #020810 100%)';
+    });
+  }
+
   // Splash
   setTimeout(() => {
     document.getElementById('splash').classList.add('hide');
